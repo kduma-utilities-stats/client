@@ -1,0 +1,7 @@
+{
+  "name": "utilities-stats-client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
