@@ -1,17 +1,42 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { MessageComponent } from '../message/message.component';
 
 import { DataService, Message } from '../services/data.service';
+import {ConfigService} from "../services/config.service";
+import {ApiService, UserResponse} from "../services/api.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit  {
   private data = inject(DataService);
-  constructor() {}
+  user: UserResponse | null = null;
+
+  constructor(
+    protected configService: ConfigService,
+    protected apiService: ApiService,
+    protected router: Router
+  ) { }
+
+  async ngOnInit() {
+    if (!this.configService.isConfigured) {
+      await this.router.navigate(['/login']);
+      return;
+    }
+
+    this.apiService.status().subscribe((response) => {
+      if(!response.authenticated){
+        this.router.navigate(['/login']);
+        return;
+      }
+
+      this.user = response.user;
+    });
+  }
 
   refresh(ev: any) {
     setTimeout(() => {
@@ -21,5 +46,13 @@ export class HomePage {
 
   getMessages(): Message[] {
     return this.data.getMessages();
+  }
+
+  logOut() {
+    this.apiService.logout()
+      .subscribe(async (response) => {
+        this.configService.apiToken = null;
+        await this.router.navigate(['/login']);
+      });
   }
 }
