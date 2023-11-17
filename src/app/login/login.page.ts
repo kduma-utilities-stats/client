@@ -4,7 +4,7 @@ import {ApiService, TokenResponse} from "../services/api.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
-import {AlertController} from "@ionic/angular";
+import {AlertController, Platform} from "@ionic/angular";
 
 @Component({
   selector: 'app-login',
@@ -24,11 +24,14 @@ export class LoginPage implements OnInit {
     protected configService: ConfigService,
     protected apiService: ApiService,
     protected router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    public platform: Platform
   ) {}
 
   ngOnInit() {
-    this.setTestData();
+    if(!this.platform.is('capacitor')) {
+      this.setTestData();
+    }
 
     try {
       this.url = this.configService.apiUrl;
@@ -56,7 +59,7 @@ export class LoginPage implements OnInit {
 
         this.configService.apiUrl = this.url;
         this.configService.apiToken = response.token;
-        await this.router.navigate(['/']);
+        await this.router.navigate(['/'], { replaceUrl: true });
       });
   }
 
@@ -70,7 +73,7 @@ export class LoginPage implements OnInit {
 
         this.configService.apiUrl = this.url;
         this.configService.apiToken = response.token;
-        await this.router.navigate(['/']);
+        await this.router.navigate(['/'], { replaceUrl: true });
       });
   }
 

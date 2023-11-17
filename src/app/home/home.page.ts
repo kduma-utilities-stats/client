@@ -24,13 +24,13 @@ export class HomePage implements OnInit  {
 
   async ngOnInit() {
     if (!this.configService.isConfigured) {
-      await this.router.navigate(['/login']);
+      await this.router.navigate(['/login'], { replaceUrl: true });
       return;
     }
 
     this.apiService.status().subscribe((response) => {
       if(!response.authenticated){
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login'], { replaceUrl: true });
         return;
       }
 
@@ -52,7 +52,7 @@ export class HomePage implements OnInit  {
     this.apiService.logout()
       .subscribe(async (response) => {
         this.configService.apiToken = null;
-        await this.router.navigate(['/login']);
+        await this.router.navigate(['/login'], { replaceUrl: true });
       });
   }
 }
