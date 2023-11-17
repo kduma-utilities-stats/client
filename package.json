@@ -1,6 +1,6 @@
 {
   "name": "utilities-stats-client",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -67,5 +67,5 @@
     "ts-node": "^8.3.0",
     "typescript": "~5.2.2"
   },
-  "description": "An Ionic project"
+  "description": "Utilities Stats App"
 }
