@@ -1,6 +1,7 @@
-import {computed, Injectable, Signal, signal} from '@angular/core';
+import {computed, inject, Injectable, Signal, signal} from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import {UserResponse} from "./api.service";
+import {ActivatedRouteSnapshot, CanActivateFn, ResolveFn, Router, RouterStateSnapshot} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -72,3 +73,22 @@ export class ConfigService {
     }
   }
 }
+
+
+export const loggedInGuard: CanActivateFn =
+  (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    if (!inject(ConfigService).isConfigured()) {
+      return inject(Router).parseUrl('/login');
+    }
+
+    return true;
+  };
+
+export const guestGuard: CanActivateFn =
+  (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    if (inject(ConfigService).isConfigured()) {
+      return inject(Router).parseUrl('/');
+    }
+
+    return true;
+  };

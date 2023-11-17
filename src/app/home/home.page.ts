@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { MessageComponent } from '../message/message.component';
 
@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit  {
+export class HomePage   {
   private data = inject(DataService);
   user: UserResponse | null = null;
 
@@ -21,13 +21,6 @@ export class HomePage implements OnInit  {
     protected apiService: ApiService,
     protected router: Router
   ) { }
-
-  async ngOnInit() {
-    if (this.configService.user() === null) {
-      await this.router.navigate(['/login'], { replaceUrl: true });
-      return;
-    }
-  }
 
   refresh(ev: any) {
     setTimeout(() => {

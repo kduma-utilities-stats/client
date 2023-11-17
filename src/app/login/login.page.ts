@@ -29,11 +29,6 @@ export class LoginPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    if (this.configService.user() !== null) {
-      await this.router.navigate(['/'], {replaceUrl: true});
-      return;
-    }
-
     if (!this.platform.is('capacitor')) {
       this.setTestData();
     }

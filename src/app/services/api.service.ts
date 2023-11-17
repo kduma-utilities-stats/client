@@ -18,12 +18,14 @@ export class ApiService {
 
       if (!response.authenticated) {
         this.configService.user.set(null);
+        this.configService.apiToken = null;
         return;
       }
 
       this.configService.user.set(response.user);
     } catch (e) {
       this.configService.user.set(null);
+      this.configService.apiToken = null;
     }
   }
 
