@@ -9,7 +9,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "pack": "cd www && zip -r ../www.zip . && cd ..",
+    "cap-config": "npx trapeze run config.yaml --diff -y"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +32,7 @@
     "@capacitor/preferences": "^5.0.6",
     "@capacitor/status-bar": "5.0.6",
     "@ionic/angular": "^7.0.0",
+    "@trapezedev/configure": "^7.0.10",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

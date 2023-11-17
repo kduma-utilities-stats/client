@@ -1,0 +1,47 @@
+vars:
+  BUILD_NUMBER:
+    default: 1
+  VERSION_NAME:
+    default: 0.0.0
+  APP_NAME:
+    default: Utilities Stats App
+  SHORT_APP_NAME:
+    default: Utilities Stats
+  PACKAGE_NAME:
+    default: dev.duma.capacitor.utilitiesstats
+
+
+platforms:
+  android:
+    versionName: $VERSION_NAME
+    versionCode: $BUILD_NUMBER
+    packageName: $PACKAGE_NAME
+    appName: $APP_NAME
+  ios:
+    version: $VERSION_NAME
+    buildNumber: $BUILD_NUMBER
+    bundleId: $PACKAGE_NAME
+    displayName: $APP_NAME
+project:
+  json:
+    - file: package.json
+      set:
+        version: $VERSION_NAME
+        description: $APP_NAME
+  xml:
+    - file: android/app/src/main/res/values/strings.xml
+      target: resources/string[@name="app_name"]
+      replace: |
+        <string name="app_name">$APP_NAME</string>
+    - file: android/app/src/main/res/values/strings.xml
+      target: resources/string[@name="title_activity_main"]
+      replace: |
+        <string name="title_activity_main">$SHORT_APP_NAME</string>
+    - file: android/app/src/main/res/values/strings.xml
+      target: resources/string[@name="package_name"]
+      replace: |
+        <string name="package_name">$PACKAGE_NAME</string>
+    - file: android/app/src/main/res/values/strings.xml
+      target: resources/string[@name="custom_url_scheme"]
+      replace: |
+        <string name="custom_url_scheme">$PACKAGE_NAME</string>
