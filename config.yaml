@@ -1,8 +1,8 @@
 vars:
   BUILD_NUMBER:
-    default: 1
+    default: 2
   VERSION_NAME:
-    default: 0.0.1
+    default: 0.0.2
   APP_NAME:
     default: Utilities Stats App
   SHORT_APP_NAME:
