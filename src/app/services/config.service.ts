@@ -1,12 +1,15 @@
-import { Injectable } from '@angular/core';
+import {computed, Injectable, Signal, signal} from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import {UserResponse} from "./api.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
-  private _apiUrl: string|null = null;
-  private _apiToken: string|null = null;
+  private _apiUrl = signal<string|null>(null);
+  private _apiToken = signal<string|null>(null);
+  isConfigured: Signal<boolean> = computed(() => this._apiUrl() !== null && this._apiToken() !== null);
+  user = signal<UserResponse | null>(null)
 
   constructor() {
     this.load().then(r => console.log(r));
@@ -14,22 +17,24 @@ export class ConfigService {
 
   async load() {
     let { value: _apiToken} = await Preferences.get({key: 'api_token'});
-    this._apiToken = _apiToken;
+    this._apiToken.set(_apiToken);
 
     let { value: _apiUrl} = await Preferences.get({key: 'api_endpoint'});
-    this._apiUrl = _apiUrl;
+    this._apiUrl.set(_apiUrl);
   }
 
   get apiUrl(): string {
-    if(this._apiUrl === null){
+    const apiUrl = this._apiUrl();
+
+    if(apiUrl === null){
       throw new Error('API URL is not set');
     }
 
-    return this._apiUrl;
+    return apiUrl;
   }
 
   set apiUrl(value: string|null) {
-    this._apiUrl = value;
+    this._apiUrl.set(value);
 
     if(value === null){
       Preferences.remove({
@@ -44,15 +49,16 @@ export class ConfigService {
   }
 
   get apiToken(): string {
-    if(this._apiToken === null){
+    const apiToken = this._apiToken();
+    if(apiToken === null){
       throw new Error('API Token is not set');
     }
 
-    return this._apiToken;
+    return apiToken;
   }
 
   set apiToken(value: string|null) {
-    this._apiToken = value;
+    this._apiToken.set(value);
 
     if(value === null){
       Preferences.remove({
@@ -64,9 +70,5 @@ export class ConfigService {
         value: value,
       }).then(r => console.log(r));
     }
-  }
-
-  get isConfigured(): Boolean {
-    return this._apiUrl !== null && this._apiToken !== null;
   }
 }

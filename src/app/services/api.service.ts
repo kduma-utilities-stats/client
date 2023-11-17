@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ConfigService} from "./config.service";
+import {firstValueFrom} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,20 @@ export class ApiService {
     private configService: ConfigService
   ) { }
 
+  async refreshUser() {
+    try {
+      let response = await firstValueFrom(this.status());
+
+      if (!response.authenticated) {
+        this.configService.user.set(null);
+        return;
+      }
+
+      this.configService.user.set(response.user);
+    } catch (e) {
+      this.configService.user.set(null);
+    }
+  }
 
   status(){
     return this.httpClient.get<StatusResponse>(this.getUrl('/api/status'),

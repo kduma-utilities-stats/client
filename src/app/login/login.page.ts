@@ -28,8 +28,13 @@ export class LoginPage implements OnInit {
     public platform: Platform
   ) {}
 
-  ngOnInit() {
-    if(!this.platform.is('capacitor')) {
+  async ngOnInit() {
+    if (this.configService.user() !== null) {
+      await this.router.navigate(['/'], {replaceUrl: true});
+      return;
+    }
+
+    if (!this.platform.is('capacitor')) {
       this.setTestData();
     }
 
@@ -59,6 +64,7 @@ export class LoginPage implements OnInit {
 
         this.configService.apiUrl = this.url;
         this.configService.apiToken = response.token;
+        await this.apiService.refreshUser();
         await this.router.navigate(['/'], { replaceUrl: true });
       });
   }
@@ -73,6 +79,7 @@ export class LoginPage implements OnInit {
 
         this.configService.apiUrl = this.url;
         this.configService.apiToken = response.token;
+        await this.apiService.refreshUser();
         await this.router.navigate(['/'], { replaceUrl: true });
       });
   }
