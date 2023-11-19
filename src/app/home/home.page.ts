@@ -1,10 +1,10 @@
 import {Component, inject} from '@angular/core';
 import { RefresherCustomEvent } from '@ionic/angular';
-import { MessageComponent } from '../message/message.component';
+import { MessageComponent } from '../components/message/message.component';
 
 import { DataService, Message } from '../services/data.service';
 import {ConfigService} from "../services/config.service";
-import {ApiService, UserResponse} from "../services/api.service";
+import {ApiService, UserResource} from "../services/api.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
 })
 export class HomePage   {
   private data = inject(DataService);
-  user: UserResponse | null = null;
+  user: UserResource | null = null;
 
   constructor(
     public configService: ConfigService,

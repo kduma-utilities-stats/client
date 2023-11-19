@@ -1,6 +1,6 @@
 import {computed, inject, Injectable, Signal, signal} from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
-import {UserResponse} from "./api.service";
+import {UserResource} from "./api.service";
 import {ActivatedRouteSnapshot, CanActivateFn, ResolveFn, Router, RouterStateSnapshot} from "@angular/router";
 
 @Injectable({
@@ -10,7 +10,7 @@ export class ConfigService {
   private _apiUrl = signal<string|null>(null);
   private _apiToken = signal<string|null>(null);
   isConfigured: Signal<boolean> = computed(() => this._apiUrl() !== null && this._apiToken() !== null);
-  user = signal<UserResponse | null>(null)
+  user = signal<UserResource | null>(null)
 
   constructor() {
     this.load().then(r => console.log(r));

@@ -23,6 +23,21 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
     canActivate: [guestGuard]
   },
+  {
+    path: 'settings/meters',
+    loadChildren: () => import('./settings/meters/list/list.module').then( m => m.ListPageModule),
+    canActivate: [loggedInGuard]
+  },
+  {
+    path: 'settings/meters/create',
+    loadChildren: () => import('./settings/meters/create/create.module').then( m => m.CreatePageModule),
+    canActivate: [loggedInGuard]
+  },
+  {
+    path: 'settings/meters/view/:id',
+    loadChildren: () => import('./settings/meters/view/view.module').then( m => m.ViewPageModule),
+    canActivate: [loggedInGuard]
+  },
 ];
 
 @NgModule({

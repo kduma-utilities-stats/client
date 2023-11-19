@@ -39,6 +39,36 @@ export class ApiService {
       });
   }
 
+  getMeters(){
+    return this.httpClient.get<GetMetersResponse>(this.getUrl('/api/meter'),
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer '+ this.configService.apiToken,
+        }
+      });
+  }
+
+  getMeter(id: string){
+    return this.httpClient.get<GetMeterResponse>(this.getUrl('/api/meter/'+id),
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer '+ this.configService.apiToken,
+        }
+      });
+  }
+
+  deleteMeter(id: string) {
+    return this.httpClient.delete<GetMeterResponse>(this.getUrl('/api/meter/'+id),
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer '+ this.configService.apiToken,
+        }
+      });
+  }
+
   logout(){
     return this.httpClient.post(this.getUrl('/api/logout'),
       {},
@@ -90,19 +120,55 @@ export class ApiService {
   }
 }
 
-export interface UserResponse {
-  id: number;
+export interface UserResource {
+  id: string;
   name: string;
   email: string;
+}
+
+export interface MeterResource {
+  id: string;
+  name: string;
+  user_id: string;
+}
+
+export interface CounterResource {
+  id: string;
+  name: string | null;
+  barcode: string | null;
+  meter_id: string;
+}
+
+export interface ReadingResource {
+  id: string;
+  user_id: string;
+  performed_on: string;
+  notes: string | null;
+}
+
+export interface ValueResource {
+  id: string;
+  reading_id: string;
+  counter_id: string;
+  value: number;
+  notes: string | null;
 }
 
 export interface StatusResponse {
   version: string;
   laravel: string;
   authenticated: boolean;
-  user: UserResponse | null;
+  user: UserResource | null;
 }
 
 export interface TokenResponse {
   token: string;
+}
+
+export interface GetMetersResponse {
+  data: MeterResource[];
+}
+
+export interface GetMeterResponse {
+  data: MeterResource;
 }
