@@ -130,6 +130,7 @@ export interface MeterResource {
   id: string;
   name: string;
   user_id: string;
+  counters_count: number;
 }
 
 export interface CounterResource {
@@ -137,6 +138,7 @@ export interface CounterResource {
   name: string | null;
   barcode: string | null;
   meter_id: string;
+  values_count: number;
 }
 
 export interface ReadingResource {
@@ -144,6 +146,7 @@ export interface ReadingResource {
   user_id: string;
   performed_on: string;
   notes: string | null;
+  values_count: number;
 }
 
 export interface ValueResource {
